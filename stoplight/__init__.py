@@ -97,7 +97,7 @@ def api_stopStoplight():
     GPIO.output(LIGHTS["yellow"], 1)
     GPIO.output(LIGHTS["red"], 1)
     if backProc is not None:
-        backProc.terminate()
+        backProc.kill()
         return 'killed: ' + str(backProc.pid)
     return 'turned off all lights'
 
@@ -108,7 +108,7 @@ def api_shots():
     countDownTime = request.args.get("countDownTime")
     goTime = request.args.get("goTime")
     if backProc is not None:
-        backProc.terminate()
+        backProc.kill()
     backProc = multiprocessing.Process(target=shots, args=(countDownTime, goTime), daemon=True)
     backProc.start()
     return 'started: ' + str(backProc.pid)
