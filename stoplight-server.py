@@ -43,21 +43,21 @@ def shots(countDownTime, goTime):
     GPIO.output(LIGHTS["red"], 0)
     startTime = time.time()
     currentTime = time.time()
-    while currentTime < countDownTime-5.7:
+    while currentTime < int(countDownTime)-5.7:
         GPIO.output(LIGHTS["yellow"], 1)
         time.sleep(1)
         GPIO.output(LIGHTS["yellow"], 0)
         time.sleep(1)
         currentTime = startTime - time.time()
 
-    while currentTime < countDownTime-2.5:
+    while currentTime < int(countDownTime)-2.5:
         GPIO.output(LIGHTS["yellow"], 1)
         time.sleep(.5)
         GPIO.output(LIGHTS["yellow"], 0)
         time.sleep(.5)
         currentTime = startTime - time.time()
 
-    while currentTime < countDownTime:
+    while currentTime < int(countDownTime):
         GPIO.output(LIGHTS["yellow"], 1)
         time.sleep(.2)
         GPIO.output(LIGHTS["yellow"], 0)
@@ -66,7 +66,7 @@ def shots(countDownTime, goTime):
 
     GPIO.output(LIGHTS["yellow"], 1)
     GPIO.output(LIGHTS["green"], 0)
-    time.sleep(goTime)
+    time.sleep(int(goTime))
     GPIO.output(LIGHTS["green"], 1)
     GPIO.output(LIGHTS["yellow"], 1)
     GPIO.output(LIGHTS["red"], 0)
@@ -111,4 +111,4 @@ def api_shots():
 
 
 if __name__ == "__main__":
-    app.run(use_reloader=False)
+    app.run(use_reloader=False, host="0.0.0.0")
