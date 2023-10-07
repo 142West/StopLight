@@ -83,6 +83,7 @@ def api_root():
 
 @app.route('/start', methods=["GET"])
 def api_startStoplight():
+    global backProc
     backProc = multiprocessing.Process(target=runStopLight, args=(), daemon=True)
     backProc.start()
     return 'started: ' + str(backProc.pid)
@@ -90,16 +91,20 @@ def api_startStoplight():
 
 @app.route('/stop', methods=["GET"])
 def api_stopStoplight():
+    global backProc
     print("Stopping stoplight")
     GPIO.output(LIGHTS["green"], 1)
     GPIO.output(LIGHTS["yellow"], 1)
     GPIO.output(LIGHTS["red"], 1)
-    backProc.terminate()
-    return 'killed: ' + str(backProc.pid)
+    if backProc is not None:
+        backProc.terminate()
+        return 'killed: ' + str(backProc.pid)
+    return 'turned off all lights'
 
 
 @app.route('/shots', methods=["GET"])
 def api_shots():
+    global backProc
     countDownTime = request.args.get("countDownTime")
     goTime = request.args.get("goTime")
     if backProc is not None:
